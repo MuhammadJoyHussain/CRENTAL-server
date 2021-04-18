@@ -76,6 +76,15 @@ client.connect(err => {
         .then(documents => res.send(!!documents.value))
       })
 
+      app.post('/isAdmin',(req, res) => {
+        const email = req.body.email;
+        serviceCollection.find({email: email})
+        .toArray((err, admins) => {
+            res.send(admins.length > 0)
+        })
+    });
+      
+
 });
 
 
