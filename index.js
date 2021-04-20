@@ -17,9 +17,9 @@ const port = 4000;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.b9eao.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-  const reviewCollection = client.db("rentACar").collection("reviews");
-  const orderCollection = client.db("rentACar").collection("orders");
-  const serviceCollection = client.db("rentACar").collection("services");
+  const reviewCollection = client.db("rent").collection("reviews");
+  const orderCollection = client.db("rent").collection("orders");
+  const serviceCollection = client.db("rent").collection("services");
   
 
     app.post('/addReview',(req, res) => {
