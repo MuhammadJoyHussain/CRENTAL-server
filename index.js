@@ -75,10 +75,10 @@ client.connect(err => {
         })
     });
       
-    app.delete('/delete/:id', (res, req) => {
+    app.delete('/delete/:id', (req, res) =>{
         serviceCollection.deleteOne({_id: ObjectID(req.params.id)})
-        .then(result => res.send(!!result.deletedCount))
-    })
+        .then(documents => res.send(!!documents.deletedCount))
+      })
 
 });
 
