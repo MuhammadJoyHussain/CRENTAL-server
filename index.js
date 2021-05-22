@@ -67,12 +67,6 @@ client.connect(err => {
         })
     })
 
-    app.delete('/deleteService/:id', (req, res) =>{
-        const id = ObjectID(req.params.id)
-        serviceCollection.findOneAndDelete({_id:id})
-        .then(documents => res.send(!!documents.value))
-      })
-
       app.post('/isAdmin',(req, res) => {
         const email = req.body.email;
         serviceCollection.find({email: email})
