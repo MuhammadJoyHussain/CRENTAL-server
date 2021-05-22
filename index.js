@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 const ObjectID = require('mongodb').ObjectID;
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config()
@@ -9,6 +10,7 @@ const app = express()
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static('admin'));
 
 const port = 4000;
 
@@ -24,7 +26,6 @@ client.connect(err => {
 
     app.post('/addReview',(req, res) => {
         const reviews = req.body;
-        console.log(reviews);
         reviewCollection.insertOne(reviews)
         .then(result => {
             res.send(result.insertedCount > 0)
@@ -55,12 +56,8 @@ client.connect(err => {
     });
 
     app.post('/addService',(req, res) => {
-        const services = req.body;
-        console.log(services);
-        serviceCollection.insertOne(services)
-        .then(result => {
-            res.send(result.insertedCount > 0)
-        })
+       serviceCollection.insertOne(req.body)
+       .then(result => res.send(!!result.insertedCount))
     });
 
     app.get('/services', (req, res) => {
@@ -84,6 +81,10 @@ client.connect(err => {
         })
     });
       
+    app.delete('/delete/:id', (res, req) => {
+        serviceCollection.deleteOne({_id: ObjectID(req.params.id)})
+        .then(result => res.send(!!result.deletedCount))
+    })
 
 });
 
